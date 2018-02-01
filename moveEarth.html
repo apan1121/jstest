@@ -78,7 +78,7 @@ $(document).ready(function() {
     var mouseClickFlag = 0;
     var moveFlag = 0;
     var direction = 1;
-    var defaultMove = 5;
+    var defaultMove = 1;
 
     earthObj.bind("mousedown", function() {
         mouseClickFlag = 1;
@@ -92,7 +92,7 @@ $(document).ready(function() {
             var nowDeg = getRotationDegrees( earthObj ) + (defaultMove * direction);
             setRotationDegrees( earthObj, nowDeg);
         }
-    },50);
+    },20);
 
     var waitMoveFlagTo0Timer = null;
 
