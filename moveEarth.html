@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+</head>
+<style>
+.content {
+    width: 100vw;
+    height: 80vh;
+    position: relative;
+    background: #ddd;
+}
+
+.content .earthbox {
+    width: 300px;
+    height: 300px;
+    transform: translateX(-50%) translateY(50%);
+
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+}
+.content .earthbox .earth {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-image: url("http://www.xinhuanet.com/science/2017-07/01/136406058_14987863937321n.png");
+}
+</style>
+
+<body>
+    <div class="content">
+        <div class="earthbox">
+            <div class="earth">
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+function getRotationDegrees(obj) {
+    var matrix = obj.css("-webkit-transform") ||
+        obj.css("-moz-transform") ||
+        obj.css("-ms-transform") ||
+        obj.css("-o-transform") ||
+        obj.css("transform");
+    if (matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    } else { var angle = 0; }
+    return (angle < 0) ? angle + 360 : angle;
+}
+$(document).ready(function() {
+    var lastX = null;
+    $(".earth").bind('touchmove', function(e) {
+        var currentX = e.originalEvent.touches[0].clientX;
+
+        if (lastX != null) {
+
+
+            var move = currentX - lastX;
+            var direct = "";
+            if (currentX > lastX) {
+                direct = "right";
+            } else if (currentX < lastX) {
+                direct = "left";
+            }
+            $("#test").html(move + "," + direct);
+
+            var nowDeg =  getRotationDegrees($(this)) + move;
+console.log(nowDeg);
+            // $('.earth').animate({ borderSpacing: -90 }, {
+                // step: function(now, fx) {
+                    $(this).css('-webkit-transform', 'rotate(' + nowDeg + 'deg)');
+                    $(this).css('-moz-transform', 'rotate(' + nowDeg + 'deg)');
+                    $(this).css('transform', 'rotate(' + nowDeg + 'deg)');
+                // },
+                // duration: 'slow'
+            // }, 'linear');
+        }
+
+        lastX = currentX;
+    });
+});
+</script>
+
+</html>
