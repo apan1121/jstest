@@ -15,6 +15,7 @@
     height: 80vh;
     position: relative;
     background: #ddd;
+    overflow-x: hidden;
 }
 
 .content .earthbox {
@@ -60,12 +61,15 @@ function getRotationDegrees(obj) {
 }
 $(document).ready(function() {
     var lastX = null;
-    $(".earth").bind('touchmove', function(e) {
-        var currentX = e.originalEvent.touches[0].clientX;
+    $(".earth").bind('touchmove mousemove', function(e) {
+        var currentX = 0;
+        if (e.type == "touchmove") {
+            currentX = e.originalEvent.touches[0].clientX;
+        } else {
+            currentX = e.pageX;
+        }
 
         if (lastX != null) {
-
-
             var move = currentX - lastX;
             var direct = "";
             if (currentX > lastX) {
